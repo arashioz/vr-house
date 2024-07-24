@@ -2,9 +2,9 @@ import Path from "@src/constants/Path";
 import { NextFunction, Router } from "express";
 import jetValidator from "jet-validator";
 import auth from "./auth";
+import { validateAuthBody } from "@src/middleware/body-validator.middleware";
 export const authRouter = Router()
-const validator = jetValidator();
 
 
-authRouter.post(Path.Auth.signUp, auth.register)
-authRouter.post(Path.Auth.signIn, auth.register)
+authRouter.post(Path.Auth.signUp, validateAuthBody, auth.register)
+authRouter.post(Path.Auth.signIn, validateAuthBody, auth.register)
