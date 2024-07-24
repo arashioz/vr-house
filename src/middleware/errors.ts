@@ -1,14 +1,20 @@
-import Env from "@src/constants/Env";
-import { IReq, IRes } from "@src/types/routes";
-import { ResponseDto } from "@src/utils/response";
-import { NextFunction } from "express";
-import logger from "jet-logger";
+import expressWinston from 'express-winston';
+import winston, { createLogger, format, transports } from 'winston';
 
-const errorHandlerMiddleware = (err: any, req: IReq, res: IRes, next: NextFunction) => {
-    const errStatus = err.statusCode || 500;
-    const errMsg = err.message || 'Something went wrong';
-    logger.err( err.message );
-    res.status(500).json(new ResponseDto(errMsg, errStatus))
-}
+const { combine, timestamp, label, printf } = format;
+const myFormat = printf(({ level, message, label, timestamp }) => {
+    return `${timestamp} [${label}] ${level}: ${message}`;
+});
+const errorHandlerLogMiddleware = expressWinston.errorLogger({
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'error.log' })
+    ],
+    format: combine(
+        label({ label: 'errors' }),
+        timestamp(),
+        myFormat
+    )
+});
 
-export default errorHandlerMiddleware
+export default errorHandlerLogMiddleware;
