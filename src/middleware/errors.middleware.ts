@@ -8,7 +8,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 const errorHandlerLogMiddleware = expressWinston.errorLogger({
     transports: [
         new winston.transports.Console(),
-        new winston.transports.File({ filename: 'error.log' })
+        new winston.transports.File({ filename: './logs/error.log' })
     ],
     format: combine(
         label({ label: 'errors' }),

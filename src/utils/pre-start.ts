@@ -2,6 +2,10 @@ import { IArgs } from "@src/types/interface/env.init";
 import path from "path";
 import { parse } from "ts-command-line-args";
 import * as dotenv from 'dotenv'
+dotenv.config({
+    path:`../../envs/.env`
+})
+
 const commandLine = parse<IArgs>({
     env: {
         type: String,

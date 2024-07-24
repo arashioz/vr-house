@@ -1,6 +1,6 @@
 export default {
     base:'/api',
-    Login:{
+    Auth:{
         base:'/application',
         signUp:'sign-up',
         signIn:'sign-in'
